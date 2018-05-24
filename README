@@ -1,0 +1,42 @@
+SpringBoot microservice calculating prime numbers
+
+Build with
+$ mvn clean package
+
+Run unit and integration test with
+$ mvn test
+
+Run application with (after building it) 
+$ java -jar target/primes-0.0.1-SNAPSHOT.jar
+
+Interactive tests with curl
+-------------------------------
+$ curl localhost:8080/primes/10
+{"initial":10,"primes":[2,3,5,7]}
+
+Test content type XML
+$ curl --header "Accept:application/xml" localhost:8080/primes/10
+<Primes><initial>10</initial><primes><primes>2</primes><primes>3</primes><primes>5</primes><primes>7</primes></primes></Primes>
+
+Use parallel algorithm to do calculation.
+$ curl localhost:8080/primes/100000?parallelalgo=true
+{"initial":100001,"primes":[2,3,5,7,11,13, ... prime numbers up to 100000 ... ]}
+
+Note:
+The time taken for the prime number calculation of each request can be seen on
+stdout of the terminal primes-0.0.1-SNAPSHOT.jar is running from.
+
+The application is caching all calculated results against the 'initial' parameter as key.
+So subsequent request with the same value for parameter 'initial' will be served from cache 
+and no calculation time will be shown on stdout.
+
+Tested in the following environment:
+
+$ mvn --version
+Apache Maven 3.5.3 (3383c37e1f9e9b3bc3df5050c29c8aff9f295297; 2018-02-24T19:49:05Z)
+Maven home: C:\cygwin64\usr\local\bin\apache-maven-3.5.3
+Java version: 1.8.0_144, vendor: Oracle Corporation
+Java home: C:\Program Files\Java\jdk1.8.0_144\jre
+Default locale: en_US, platform encoding: Cp1252
+OS name: "windows 10", version: "10.0", arch: "amd64", family: "windows"
+
